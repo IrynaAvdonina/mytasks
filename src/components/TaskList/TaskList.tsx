@@ -1,34 +1,44 @@
-import { Checkbox, Chip, IconButton, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, Divider, IconButton, Stack, Typography } from '@mui/material';
 
 import { Edit, Delete } from '@mui/icons-material';
 
 const TaskList = () =>
 {
   return (
-    <TableContainer>
-      {/* <Typography variant="h6" sx={{ p: 2 }}>
-        3 tasks left
-      </Typography> */}
-      <Table>
-        <TableBody>
+    <Stack spacing={2} divider={<Divider orientation="horizontal" />}>
+      <Stack direction="row"
+        justifyContent="space-between"
+        alignItems="center">
+        <Stack direction="row" alignItems="center">
+          <Checkbox checked={false} />
+          <Typography component="span">Drink 8 glasses of water</Typography>
+        </Stack>
 
-          <TableRow >
-            <TableCell>
-              <Checkbox checked={false} />
-              <Typography component="span">Drink 8 glasses of water</Typography>
-            </TableCell>
-            <TableCell  >
-              <Chip label="High" color="error" variant="outlined" />
-            </TableCell>
-            <TableCell>13/03/2025</TableCell>
-            <TableCell align="right">
-              <IconButton><Edit /></IconButton>
-              <IconButton><Delete /></IconButton>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+        <Chip label="High" color="error" variant="outlined" sx={{ border: "2px solid red" }} />
+
+        <Typography component="span">13/03/2025</Typography>
+        <Box component="span">
+          <IconButton><Edit /></IconButton>
+          <IconButton><Delete /></IconButton>
+        </Box>
+      </Stack>
+      <Stack direction="row"
+        justifyContent="space-between"
+        alignItems="center">
+        <Stack direction="row" alignItems="center">
+          <Checkbox checked={false} />
+          <Typography component="span">Drink 8 glasses of water</Typography>
+        </Stack>
+
+        <Chip label="High" color="error" variant="outlined" />
+
+        <Typography component="span">13/03/2025</Typography>
+        <Box component="span">
+          <IconButton><Edit /></IconButton>
+          <IconButton><Delete /></IconButton>
+        </Box>
+      </Stack>
+    </Stack>
   );
 }
 
