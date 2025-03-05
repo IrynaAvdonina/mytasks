@@ -36,6 +36,7 @@ export default function CreateFormDialog({ open, setOpen }: CreateFormDialogProp
           sx: {
             borderRadius: '16px',
             borderColor: '#B2B0B0',
+            padding: '10px 40px 40px 25px'
           }
         }}
       >
@@ -43,7 +44,7 @@ export default function CreateFormDialog({ open, setOpen }: CreateFormDialogProp
         <DialogContent>
           <Stack direction='column' spacing={3}>
             <FormControl>
-              <FormLabel>Назва</FormLabel>
+              <FormLabel sx={{ mb: '11px' }} >Назва</FormLabel>
               <TextField
                 id="name"
                 name="name"
@@ -59,7 +60,7 @@ export default function CreateFormDialog({ open, setOpen }: CreateFormDialogProp
               />
             </FormControl>
             <FormControl>
-              <FormLabel sx={{ mb: 1 }}>
+              <FormLabel sx={{ mb: '11px' }}>
                 Пріоритет
               </FormLabel>
               <Stack direction="row" spacing={3}>
@@ -77,7 +78,7 @@ export default function CreateFormDialog({ open, setOpen }: CreateFormDialogProp
               </Stack>
             </FormControl>
             <Stack spacing={1}>
-              <FormLabel>Оберіть дату</FormLabel>
+              <FormLabel sx={{ mb: '11px' }}>Оберіть дату</FormLabel>
               <TextField
                 type="date"
                 value={date}
@@ -88,9 +89,9 @@ export default function CreateFormDialog({ open, setOpen }: CreateFormDialogProp
             </Stack>
           </Stack>
         </DialogContent>
-        <DialogActions sx={{ justifyContent: 'space-between', m: '0 20px 20px' }}>
+        <DialogActions sx={{ justifyContent: 'space-between', m: '0 20px 30px' }}>
           <Button color='error' onClick={handleClose} variant='outlined'>Cancel</Button>
-          <Button color='primary' variant='contained' type="submit">Create</Button>
+          <Button color='purple' variant='contained' type="submit">Create</Button>
         </DialogActions>
       </Dialog>
     </>
