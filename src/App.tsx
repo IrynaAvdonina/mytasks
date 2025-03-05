@@ -1,28 +1,29 @@
-import { Box, Button, Container, CssBaseline, ThemeProvider, Typography } from '@mui/material';
+import { Box, Container, CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme/index.ts';
-import TaskList from './components/TaskList/TaskList';
-import SearchFilter from './components/SearchFilter/SearchFilter.tsx';
 import { Header } from './components/Header/Header.tsx';
+import TasksSection from './components/TasksSection/TasksSection.tsx';
+import CreateFormDialog from './components/Dialog/Dialog.tsx';
+import { useState } from 'react';
 
 function App()
 {
+  const [open, setOpen] = useState(false);
+
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="md">
-        <Header />
+      <Box bgcolor={"#D6D6D6"} minHeight={"100vh"}>
+        <Header setOpen={setOpen} />
         <Box component="main">
-          <Box component="section">
-            <SearchFilter />
-            <Box className="tasks-header">
-              <Typography component="span">2 tasks left</Typography>
-              <Button variant="text">Clear all tasks</Button>
+          <Container maxWidth="md">
+            <Box component="section">
+              <TasksSection />
             </Box>
-            <TaskList />
-          </Box>
+          </Container>
         </Box>
-      </Container>
+      </Box>
+      <CreateFormDialog open={open} setOpen={setOpen} />
     </ThemeProvider>
   )
 }
