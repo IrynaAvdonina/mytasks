@@ -1,6 +1,7 @@
 import { Box, Checkbox, Chip, Divider, IconButton, Stack, Typography } from '@mui/material';
 
-import { Edit, Delete } from '@mui/icons-material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const TaskList = () =>
 {
@@ -18,8 +19,8 @@ const TaskList = () =>
 
         <Typography component="span">13/03/2025</Typography>
         <Box component="span">
-          <IconButton><Edit /></IconButton>
-          <IconButton><Delete /></IconButton>
+          <IconButton><EditOutlinedIcon /></IconButton>
+          <IconButton><DeleteOutlinedIcon /></IconButton>
         </Box>
       </Stack>
       <Stack direction="row"
@@ -34,8 +35,8 @@ const TaskList = () =>
 
         <Typography component="span">13/03/2025</Typography>
         <Box component="span">
-          <IconButton><Edit /></IconButton>
-          <IconButton><Delete /></IconButton>
+          <IconButton><EditOutlinedIcon /></IconButton>
+          <IconButton><DeleteOutlinedIcon /></IconButton>
         </Box>
       </Stack>
     </Stack>
