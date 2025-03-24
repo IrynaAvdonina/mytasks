@@ -1,6 +1,7 @@
 import { Box, Container, Fab, Stack, Typography } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import SearchFilter from './../SearchFilter/SearchFilter.tsx';
+
 type HeaderProps = {
   setOpen: (open: boolean) => void
 }
