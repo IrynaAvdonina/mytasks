@@ -4,11 +4,12 @@ import { Header } from './components/Header/Header.tsx';
 import TasksSection from './components/TasksSection/TasksSection.tsx';
 import CreateFormDialog from './components/Dialog/Dialog.tsx';
 import { useState } from 'react';
+import { tasks as tasksData } from './data/data.ts'
 
 function App()
 {
   const [open, setOpen] = useState(false);
-
+  const [tasks, setTasks] = useState(tasksData);
 
   return (
     <ThemeProvider theme={theme}>
@@ -18,7 +19,7 @@ function App()
         <Box component="main">
           <Container maxWidth="md">
             <Box component="section">
-              <TasksSection />
+              <TasksSection tasks={tasks} setTasks={setTasks} />
             </Box>
           </Container>
         </Box>
