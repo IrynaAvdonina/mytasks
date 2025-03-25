@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { priorities, /*categories*/ } from './../../data/data.ts';
-//import { useTasks } from '../../TasksContext.tsx';
+import { useTasks } from '../../TasksContext.tsx';
 
 
 type TFilterFormControl = {
@@ -14,11 +14,19 @@ type TFilterFormControl = {
 const FilterFormControl = ({ name, options, labelId, inputId }: TFilterFormControl) =>
 {
   const [choice, setChoice] = useState<string>('');
-  //const { setTasks } = useTasks();
+  const { tasks, setTasks } = useTasks();
+  const [originalTasks] = useState(tasks); // Зберігаємо початковий список
 
   const handleChange = (event: SelectChangeEvent) =>
   {
     setChoice(event.target.value as string);
+    if (event.target.value)
+    {
+      setTasks(originalTasks.filter(task => task.priority == +event.target.value));
+    } else
+    {
+      setTasks(originalTasks);
+    }
   };
   return (
     <FormControl
