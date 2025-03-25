@@ -1,15 +1,10 @@
-import { Box, Typography, Button, Stack } from '@mui/material'
-import { TTask } from '../../data/data';
-import TaskList from '../TaskList/TaskList'
+import { Box, Typography, Button, Stack } from '@mui/material';
+import TaskList from '../TaskList/TaskList';
+import { useTasks } from './../../TasksContext';
 
-interface TasksSectionProps
+export default function TasksSection()
 {
-  tasks: TTask[];
-  setTasks: React.Dispatch<React.SetStateAction<TTask[]>>;
-}
-
-export default function TasksSection({ tasks, setTasks }: TasksSectionProps)
-{
+  const { tasks, setTasks } = useTasks();
   function handleDeleteTasks()
   {
     setTasks([]);
@@ -20,7 +15,7 @@ export default function TasksSection({ tasks, setTasks }: TasksSectionProps)
         <Typography color="lightGrey" component="span">{tasks.filter(task => task.completed == false).length} tasks left</Typography>
         <Button onClick={handleDeleteTasks} size="large" color='lightGrey' sx={{ textTransform: 'none' }} variant="text">Clear all tasks</Button>
       </Stack>
-      <TaskList tasks={tasks} setTasks={setTasks} />
+      <TaskList />
     </Box>
   )
 }

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Box, Checkbox, Chip, IconButton, Stack, SxProps, Typography } from '@mui/material';
-
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+
 import { priorities, TPriorities, TTask } from './../../data/data';
+import { useTasks } from '../../TasksContext';
 
 const FlexBox = ({ children, sx }: {
   children: React.ReactNode;
@@ -11,14 +12,11 @@ const FlexBox = ({ children, sx }: {
 }) => (
   <Box sx={{ flex: 1, minWidth: "100px", display: "flex", ...sx }}>{children}</Box>
 );
-interface TaskItemProps extends TTask
-{
-  setTasks: React.Dispatch<React.SetStateAction<TTask[]>>;
-}
 
-export default function TaskItem({ id, completed, name, priority, dueDate, setTasks }: TaskItemProps)
+export default function TaskItem({ id, completed, name, priority, dueDate }: TTask)
 {
   const [checked, setChecked] = useState<boolean>(completed);
+  const { setTasks } = useTasks();
 
   const priorityData: TPriorities | undefined = priorities.find(p => p.id === priority);
   const handleChange = () =>
@@ -29,6 +27,10 @@ export default function TaskItem({ id, completed, name, priority, dueDate, setTa
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
+  }
+  const handleDelete = () =>
+  {
+    setTasks(prev => prev.filter(task => task.id !== id));
   }
 
   return (
@@ -72,7 +74,7 @@ export default function TaskItem({ id, completed, name, priority, dueDate, setTa
 
       <FlexBox sx={{ justifyContent: "flex-end" }}>
         <IconButton aria-label="Edit task"><EditOutlinedIcon /></IconButton>
-        <IconButton aria-label="Delete task"><DeleteOutlinedIcon /></IconButton>
+        <IconButton onClick={handleDelete} aria-label="Delete task"><DeleteOutlinedIcon /></IconButton>
       </FlexBox>
     </Stack>
 

@@ -4,29 +4,31 @@ import { Header } from './components/Header/Header.tsx';
 import TasksSection from './components/TasksSection/TasksSection.tsx';
 import CreateFormDialog from './components/Dialog/Dialog.tsx';
 import { useState } from 'react';
-import { tasks as tasksData } from './data/data.ts'
+import { TasksProvider } from './TasksContext.tsx';
 
 function App()
 {
   const [open, setOpen] = useState(false);
-  const [tasks, setTasks] = useState(tasksData);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box bgcolor={"#D6D6D6"} minHeight={"100vh"}>
-        <Header setOpen={setOpen} />
-        <Box component="main">
-          <Container maxWidth="md">
-            <Box component="section">
-              <TasksSection tasks={tasks} setTasks={setTasks} />
-            </Box>
-          </Container>
+    <TasksProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box bgcolor={"#D6D6D6"} minHeight={"100vh"}>
+          <Header setOpen={setOpen} />
+          <Box component="main">
+            <Container maxWidth="md">
+              <Box component="section">
+                <TasksSection />
+              </Box>
+            </Container>
+          </Box>
         </Box>
-      </Box>
-      <CreateFormDialog open={open} setOpen={setOpen} />
-    </ThemeProvider>
+        <CreateFormDialog open={open} setOpen={setOpen} />
+      </ThemeProvider>
+    </TasksProvider>
   )
+
 }
 
 export default App;
