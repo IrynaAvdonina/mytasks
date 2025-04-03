@@ -23,21 +23,21 @@ export const tasks: TTask[] = [
     id: 1,
     completed: false,
     name: "Drink 8 glasses of water",
-    dueDate: "13/03/2025",
+    dueDate: "2025-04-10",
     priority: 1,
   },
   {
     id: 2,
     completed: true,
     name: "Read 30 pages jhgfd xcgvb hjn km, kjh gfv",
-    dueDate: "13/04/2025",
+    dueDate: "2025-03-13",
     priority: 3,
   },
   {
     id: 3,
     completed: true,
     name: "s jhgfd xcgvb hjn km, kjh gfv",
-    dueDate: "13/05/2025",
+    dueDate: "2025-05-21",
     priority: 2,
   }
 ]
