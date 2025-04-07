@@ -1,22 +1,9 @@
-export type TPriorities = {
-  id: number,
-  label: string,
-  status: "error" | "warning" | "success",
-  color: string
-};
 
 export const priorities: TPriorities[] = [
   { id: 1, label: "High", status: "error", color: 'red' },
   { id: 2, label: "Medium", status: "warning", color: "orange" },
   { id: 3, label: "Low", status: "success", color: "green" }
 ];
-export type TTask = {
-  id: number,
-  completed: boolean,
-  name: string,
-  priority: number,
-  dueDate?: string
-}
 
 export const tasks: TTask[] = [
   {
