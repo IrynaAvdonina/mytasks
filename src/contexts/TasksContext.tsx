@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { TTask, tasks as tasksData } from "./data/data";
+import { TTask, tasks as tasksData } from "../data/data";
 
 type TasksContextType = {
   tasks: TTask[];

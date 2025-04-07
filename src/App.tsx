@@ -4,7 +4,8 @@ import { Header } from './components/Header/Header.tsx';
 import TasksSection from './components/TasksSection/TasksSection.tsx';
 import CreateFormDialog from './components/Dialog/Dialog.tsx';
 import { useState } from 'react';
-import { TasksProvider } from './TasksContext.tsx';
+import { TasksProvider } from './contexts/TasksContext.tsx';
+import { FiltersProvider } from './contexts/FiltersContext.tsx';
 
 function App()
 {

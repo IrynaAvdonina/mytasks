@@ -1,74 +1,33 @@
-import { useState } from 'react';
-import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { Stack, TextField } from '@mui/material';
 import { priorities, /*categories*/ } from './../../data/data.ts';
-import { useTasks } from '../../TasksContext.tsx';
+import FilterFormControl from './../FilterFormControl/FilterFormControl.tsx';
+import { useFilters } from '../../contexts/FiltersContext.tsx';
+import { useEffect, useState } from 'react';
 
-
-type TFilterFormControl = {
-  name: string,
-  options: { id: number | string; label: string }[];
-  labelId: string,
-  inputId: string
-}
-const FilterFormControl = ({ name, options, labelId, inputId }: TFilterFormControl) =>
-{
-  const [choice, setChoice] = useState<string>('');
-  const { tasks, setTasks } = useTasks();
-  const [originalTasks] = useState(tasks); // Зберігаємо початковий список
-
-  const handleChange = (event: SelectChangeEvent) =>
-  {
-    setChoice(event.target.value as string);
-    if (event.target.value)
-    {
-      setTasks(originalTasks.filter(task => task.priority == +event.target.value));
-    } else
-    {
-      setTasks(originalTasks);
-    }
-  };
-  return (
-    <FormControl
-      variant="filled"
-      sx={{ m: 1, minWidth: 220 }}
-      size="small">
-      <InputLabel
-        id={labelId}>{name}</InputLabel>
-      <Select onChange={handleChange} disableUnderline
-        sx={{
-          borderRadius: "12px",
-          '&.MuiSelect-root': {
-            backgroundColor: 'white',
-          },
-        }}
-        labelId={labelId}
-        id={inputId}
-        value={choice}>
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        {options.map(({ id, label }) =>
-          <MenuItem key={id} value={id}>{label}</MenuItem>
-        )}
-      </Select>
-    </FormControl>
-  );
-}
 const SearchFilter = () =>
 {
+  const { setSearchQuery } = useFilters();
+  const [searchValue, setSearchValue] = useState('');
 
+  useEffect(() =>
+  {
+    setSearchQuery(searchValue);
+  }, [searchValue, setSearchQuery]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  {
+    setSearchValue(event.target.value);
+  };
   return (
     <Stack direction="row" alignItems="center" justifyContent={"space-between"} pb="4">
-      <TextField size="small" sx={{ borderRadius: "12px", background: "white", flex: 2 }} type="search" placeholder="Search task..." slotProps={{
-        input: {
-          endAdornment: (
-            <IconButton>
-              <SearchOutlinedIcon />
-            </IconButton>
-          ),
-        },
-      }} />
+      <TextField
+        size="small"
+        sx={{ borderRadius: "12px", background: "white", flex: 2 }}
+        type="search"
+        placeholder="Search task..."
+        onChange={handleChange}
+        value={searchValue}
+      />
       {/* <FilterFormControl options={categories} name="By category" labelId="select-label-category" inputId='select-category' /> */}
       <FilterFormControl options={priorities} name="By priority" labelId="select-label-priority" inputId='select-priority' />
     </Stack>
