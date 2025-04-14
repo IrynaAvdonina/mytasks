@@ -9,24 +9,26 @@ import { FiltersProvider } from './contexts/FiltersContext.tsx';
 
 function App()
 {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<{ open: boolean; task?: TTask }>({ open: false, task: undefined });
 
   return (
     <TasksProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box bgcolor={"#D6D6D6"} minHeight={"100vh"}>
-          <Header setOpen={setOpen} />
-          <Box component="main">
-            <Container maxWidth="md">
-              <Box component="section">
-                <TasksSection />
-              </Box>
-            </Container>
+      <FiltersProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box bgcolor={"#D6D6D6"} minHeight={"100vh"}>
+            <Header setOpen={setOpen} />
+            <Box component="main">
+              <Container maxWidth="md">
+                <Box component="section">
+                  <TasksSection setOpen={setOpen} />
+                </Box>
+              </Container>
+            </Box>
           </Box>
-        </Box>
-        <CreateFormDialog open={open} setOpen={setOpen} />
-      </ThemeProvider>
+          <CreateFormDialog open={open.open} setOpen={setOpen} task={open.task} />
+        </ThemeProvider>
+      </FiltersProvider>
     </TasksProvider>
   )
 

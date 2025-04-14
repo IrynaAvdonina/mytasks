@@ -1,10 +1,10 @@
 import { Divider, Stack } from '@mui/material';
 
 import TaskItem from './../TaskItem/TaskItem';
-import { TTask } from './../../data/data';
-import { useTasks } from '../../TasksContext';
+import { useTasks } from '../../contexts/TasksContext';
+import { useFilters } from '../../contexts/FiltersContext';
 
-const TaskList = () =>
+const TaskList = ({ setOpen }: { setOpen: TSetOpen }) =>
 {
   const { tasks } = useTasks();
   const { filterPriority, searchQuery } = useFilters();
@@ -20,7 +20,8 @@ const TaskList = () =>
             completed={task.completed}
             priority={task.priority}
             name={task.name}
-            dueDate={task.dueDate} />
+            dueDate={task.dueDate}
+            setOpen={setOpen} />
         ))
       }
     </Stack>
