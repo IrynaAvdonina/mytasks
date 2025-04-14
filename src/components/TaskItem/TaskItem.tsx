@@ -3,8 +3,8 @@ import { Box, Checkbox, Chip, IconButton, Stack, SxProps, Typography } from '@mu
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
-import { priorities, TPriorities, TTask } from './../../data/data';
-import { useTasks } from '../../TasksContext';
+import { priorities } from './../../data/data';
+import { useTasks } from '../../contexts/TasksContext';
 
 const FlexBox = ({ children, sx }: {
   children: React.ReactNode;
@@ -12,11 +12,16 @@ const FlexBox = ({ children, sx }: {
 }) => (
   <Box sx={{ flex: 1, minWidth: "100px", display: "flex", ...sx }}>{children}</Box>
 );
+interface TTaskItem extends TTask
+{
+  setOpen: TSetOpen;
+}
 
-export default function TaskItem({ id, completed, name, priority, dueDate }: TTask)
+export default function TaskItem({ id, completed, name, priority, dueDate, setOpen }: TTaskItem)
 {
   const [checked, setChecked] = useState<boolean>(completed);
   const { setTasks } = useTasks();
+  const today = new Date().toISOString().split('T')[0];
 
   const priorityData: TPriorities | undefined = priorities.find(p => p.id === priority);
   const handleChange = () =>
@@ -32,6 +37,8 @@ export default function TaskItem({ id, completed, name, priority, dueDate }: TTa
   {
     setTasks(prev => prev.filter(task => task.id !== id));
   }
+  console.log();// + пройшов
+
 
   return (
     <Stack direction="row" alignItems="center" sx={{
@@ -69,11 +76,11 @@ export default function TaskItem({ id, completed, name, priority, dueDate }: TTa
 
       <FlexBox sx={{ justifyContent: "center" }}>
         {dueDate && (
-          <Typography component="span">{dueDate}</Typography>)}
+          <Typography component="span" color={today > dueDate && !checked ? 'error' : 'inherit'}>{dueDate}</Typography>)}
       </FlexBox>
 
       <FlexBox sx={{ justifyContent: "flex-end" }}>
-        <IconButton aria-label="Edit task"><EditOutlinedIcon /></IconButton>
+        <IconButton onClick={() => setOpen({ open: true, task: { id, name, priority, dueDate, completed } })} aria-label="Edit task"><EditOutlinedIcon /></IconButton>
         <IconButton onClick={handleDelete} aria-label="Delete task"><DeleteOutlinedIcon /></IconButton>
       </FlexBox>
     </Stack>
