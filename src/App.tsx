@@ -2,7 +2,7 @@ import { Box, Container, CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme/index.ts';
 import { Header } from './components/Header/Header.tsx';
 import TasksSection from './components/TasksSection/TasksSection.tsx';
-import CreateFormDialog from './components/Dialog/Dialog.tsx';
+import FormDialog from './components/FormDialog/FormDialog.tsx';
 import { useState } from 'react';
 import { TasksProvider } from './contexts/TasksContext.tsx';
 import { FiltersProvider } from './contexts/FiltersContext.tsx';
@@ -26,7 +26,7 @@ function App()
               </Container>
             </Box>
           </Box>
-          <CreateFormDialog open={open.open} setOpen={setOpen} task={open.task} />
+          <FormDialog open={open.open} setOpen={setOpen} task={open.task} />
         </ThemeProvider>
       </FiltersProvider>
     </TasksProvider>

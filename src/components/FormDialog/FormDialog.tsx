@@ -1,9 +1,9 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, TextField, Chip, Stack, FormLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { priorities } from './../../data/data.ts'
+import { priorities } from '../../data/data.ts'
 import { useTasks } from '../../contexts/TasksContext.tsx';
 
-type CreateFormDialogProps = {
+type FormDialogProps = {
   open: boolean,
   setOpen: TSetOpen;
   task?: TTask;
@@ -14,7 +14,7 @@ const CustomFormLabel = ({ children }: { children: React.ReactNode }) => (
   <FormLabel sx={{ mb: '11px' }}>{children}</FormLabel>
 );
 
-export default function CreateFormDialog({ open, setOpen, task }: CreateFormDialogProps)
+export default function FormDialog({ open, setOpen, task }: FormDialogProps)
 {
   const [name, setName] = useState(task?.name || '');
 
