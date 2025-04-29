@@ -8,16 +8,13 @@ type FilterFormControlProps = {
   labelId: string,
   inputId: string
 }
-const FilterFormControl = ({ name, options, labelId, inputId }: FilterFormControlProps) =>
-{
-  const [choice, setChoice] = useState<string>('');
+const FilterFormControl = ({ name, options, labelId, inputId }: FilterFormControlProps) => {
+  const [choice, setChoice] = useState<number>(0);
   const { setFilterPriority } = useFilters();
-  const handleChange = (event: SelectChangeEvent) =>
-  {
-    setChoice(event.target.value as string);
 
-    if (event.target.value)
-    {
+  const handleChange = (event: SelectChangeEvent) => {
+    setChoice(+event.target.value);
+    if (event.target.value) {
       setFilterPriority(+event.target.value === 0 ? 0 : +event.target.value);
     }
   };
@@ -37,7 +34,7 @@ const FilterFormControl = ({ name, options, labelId, inputId }: FilterFormContro
         }}
         labelId={labelId}
         id={inputId}
-        value={choice}>
+        value={choice.toString()}>
         <MenuItem value="0">
           <em>None</em>
         </MenuItem>

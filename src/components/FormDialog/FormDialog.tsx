@@ -7,82 +7,67 @@ type FormDialogProps = {
   open: boolean,
   setOpen: TSetOpen;
   task?: TTask;
-
 };
 
 const CustomFormLabel = ({ children }: { children: React.ReactNode }) => (
   <FormLabel sx={{ mb: '11px' }}>{children}</FormLabel>
 );
 
-export default function FormDialog({ open, setOpen, task }: FormDialogProps)
-{
+export default function FormDialog({ open, setOpen, task }: FormDialogProps) {
   const [name, setName] = useState(task?.name || '');
-
   const [selectedPriority, setSelectedPriority] = useState(task?.priority || 1);
   const [dueDate, setDueDate] = useState<string | undefined>(task?.dueDate || '');
+
   const { setTasks } = useTasks();
 
   const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 1);  // додаємо 1 рік
-  const minDateString = minDate.toISOString().split('T')[0];
+  minDate.setFullYear(minDate.getFullYear() - 1);
+  const minDateString = minDate.toISOString().slice(0, 10);;
 
   const maxDate = new Date();
-  maxDate.setFullYear(maxDate.getFullYear() + 1);  // додаємо 1 рік
-  const maxDateString = maxDate.toISOString().split('T')[0];
+  maxDate.setFullYear(maxDate.getFullYear() + 1);
+  const maxDateString = maxDate.toISOString().slice(0, 10);;
 
-  useEffect(() =>
-  {
-    if (!task)
-    {
+  useEffect(() => {
+    if (!task) {
       setName('');
       setSelectedPriority(1); // Початкове значення для пріоритету
       setDueDate('');
-    } else
-    {
+    } else {
       setName(task.name);
       setSelectedPriority(task.priority);
       setDueDate(task.dueDate);
     }
-  }, [task]); // Залежність від task
+  }, [task]);
 
-  const handleClick = (id: number) =>
-  {
-    setSelectedPriority(id);
-  };
-
-  const handleClose = () =>
-  {
+  const handleClose = () => {
     setOpen({ open: false });
   };
 
-  const handleCreate = (event: React.FormEvent<HTMLFormElement>) =>
-  {
-
+  const handleCreate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const { name, date } = Object.fromEntries((formData).entries()) as { name?: string, date?: string };
+    const { name, date }: { name?: string, date?: string } = Object.fromEntries((formData).entries());
     if (!name || !date) return;
-    setTasks(prev =>
-    {
-      if (task)
-      {
-        return prev.map(t => (t.id === task.id ? { ...t, name: name, priority: selectedPriority, dueDate: date } : t));
 
-      } else
-      {
+    setTasks(prev => {
+      if (task) {
+        return prev.map(t => (t.id === task.id ? { ...t, name, priority: selectedPriority, dueDate: date } : t));
+
+      } else {
         const newId = prev.length > 0 ? Math.max(...prev.map(task => task.id)) + 1 : 1;
 
-        return [{ id: newId, name: name.toString(), priority: +selectedPriority, dueDate: date.toString(), completed: false }, ...prev];
+        return [{ id: newId, name: name.toString(), priority: +selectedPriority, dueDate: date.toString(), completed: false },
+        ...prev];
       }
     });
     handleClose();
   }
 
-
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen({ open: false })}
       disableEnforceFocus
       slotProps={{
         paper: {
@@ -93,9 +78,8 @@ export default function FormDialog({ open, setOpen, task }: FormDialogProps)
             padding: '10px 25px'
           }
         }
-      }}
-    >
-      <DialogTitle align='center'>NEW TASK</DialogTitle>
+      }}>
+      <DialogTitle align='center'>{task == undefined ? 'NEW TASK' : 'CHANGE TASK'} </DialogTitle>
       <DialogContent sx={{ pb: '10px' }}>
         <Stack direction='column' spacing={3}>
           <FormControl>
@@ -122,7 +106,7 @@ export default function FormDialog({ open, setOpen, task }: FormDialogProps)
                   label={label}
                   variant={selectedPriority === id ? "filled" : "outlined"}
                   color={status}
-                  onClick={() => handleClick(id)}
+                  onClick={() => setSelectedPriority(id)}
                   sx={{ fontWeight: 600 }}
                 />
               ))}
@@ -151,7 +135,7 @@ export default function FormDialog({ open, setOpen, task }: FormDialogProps)
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'space-between', m: '15px' }}>
         <Button color='error' onClick={handleClose} variant='outlined'>Cancel</Button>
-        <Button color='purple' variant='contained' type="submit">Create</Button>
+        <Button color='purple' variant='contained' type="submit">Submit</Button>
       </DialogActions>
     </Dialog>
   )

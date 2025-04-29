@@ -1,21 +1,20 @@
+import { useEffect, useState } from 'react';
 import { Stack, TextField } from '@mui/material';
+
 import { priorities, /*categories*/ } from './../../data/data.ts';
 import FilterFormControl from './../FilterFormControl/FilterFormControl.tsx';
 import { useFilters } from '../../contexts/FiltersContext.tsx';
-import { useEffect, useState } from 'react';
 
-const SearchFilter = () =>
-{
+
+const SearchFilter = () => {
   const { setSearchQuery } = useFilters();
   const [searchValue, setSearchValue] = useState('');
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setSearchQuery(searchValue);
-  }, [searchValue, setSearchQuery]);
+  }, [searchValue]); //setSearchQuery перевірити
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
   return (
