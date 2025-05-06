@@ -1,3 +1,4 @@
+// винести компоненти?
 import { Box, Checkbox, Chip, IconButton, Stack, SxProps, Typography } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -11,7 +12,55 @@ const FlexBox = ({ children, sx }: {
   sx?: SxProps;
 }) => (
   <Box sx={{ flex: 1, minWidth: "100px", display: "flex", ...sx }}>{children}</Box>
-);//?? extract 
+);//?? extract
+
+export function TaskDate({ dueDate, completed }: { dueDate: string, completed: boolean }) {
+  if (!dueDate) return null;
+  const today = new Date().toISOString().split('T')[0];
+
+  return (
+    <Typography component="span"
+      color={today > dueDate && !completed ? 'error' : 'inherit'}>
+      {dueDate}
+    </Typography>
+  )
+}
+{/*змінити перевірку*/ }
+export function TaskTitle({ handleChange, completed, name }: { handleChange: () => void, completed: boolean, name: string }) {
+  return (
+    <>
+      <Checkbox checked={completed || false} onChange={handleChange} />
+
+      <Typography
+        component="span"
+        sx={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          textDecoration: completed ? 'line-through' : 'none',
+          color: completed ? 'grey' : 'inherit',
+        }}>
+        {name}
+      </Typography>
+    </>
+  )
+}
+
+export function TaskPriority({ priority, completed }: { priority: number, completed: boolean }) {
+  const priorityData: TPriorities | undefined = priorities.find(p => p.id === priority);
+
+  if (!priorityData) return null;
+
+  return (
+    <Chip
+      label={priorityData.label}
+      variant="outlined"
+      sx={{
+        border: `1px solid ${completed ? 'grey' : priorityData.color}`,
+        color: completed ? 'grey' : priorityData.color
+      }} />
+  )
+}
 
 interface TTaskItem extends TTask {
   setOpen: TSetOpen;
@@ -19,9 +68,6 @@ interface TTaskItem extends TTask {
 
 export default function TaskItem({ id, completed, name, priority, dueDate, setOpen }: TTaskItem) {
   const dispatch = useDispatch();
-  const today = new Date().toISOString().split('T')[0];
-
-  const priorityData: TPriorities | undefined = priorities.find(p => p.id === priority);
 
   const handleChange = () => {
     dispatch(toggleTask({ id }));
@@ -33,40 +79,20 @@ export default function TaskItem({ id, completed, name, priority, dueDate, setOp
   return (
     <Stack direction="row" alignItems="center" sx={{
       textDecoration: completed ? 'line-through' : 'none',
-      color: completed ? 'grey' : 'inherit',
+      color: completed ? 'grey' : 'inherit'
     }}>
+
       <Stack direction="row" alignItems="center"
         sx={{ flex: 2, minWidth: "40%" }}>
-        <Checkbox checked={completed || false} onChange={handleChange} />
-
-        <Typography
-          component="span"
-          sx={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            textDecoration: completed ? 'line-through' : 'none',
-            color: completed ? 'grey' : 'inherit',
-          }}>
-          {name}
-        </Typography>
+        <TaskTitle handleChange={handleChange} completed={completed} name={name} />
       </Stack>
 
       <FlexBox sx={{ justifyContent: "center" }}>
-        {priorityData && (
-          <Chip
-            label={priorityData.label}
-            variant="outlined"
-            sx={{
-              border: `1px solid ${completed ? 'grey' : priorityData.color}`,
-              color: completed ? 'grey' : priorityData.color
-            }} />
-        )}
+        <TaskPriority priority={priority} completed={completed} />
       </FlexBox>
 
       <FlexBox sx={{ justifyContent: "center" }}>
-        {dueDate && (
-          <Typography component="span" color={today > dueDate && !completed ? 'error' : 'inherit'}>{dueDate}</Typography>)}{/*змінити перевірку*/}
+        <TaskDate dueDate={dueDate} completed={completed} />
       </FlexBox>
 
       <FlexBox sx={{ justifyContent: "flex-end" }}>

@@ -41,7 +41,7 @@ export const theme = createTheme({
       dark: alpha(purple, 0.9),
       contrastText: getContrastRatio(purple, '#fff') > 4.5 ? '#fff' : '#111',
     },
-    lightGrey: lightGrey,
+    lightGrey,
   },
 });
 

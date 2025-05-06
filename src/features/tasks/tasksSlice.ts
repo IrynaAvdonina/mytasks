@@ -6,7 +6,7 @@ const initialState: TTask[] = tasksData;
 
 export const tasksSlice = createSlice({
 	name: 'tasks',
-	initialState: initialState,
+	initialState,
 	reducers: {
 		addTask: (state, action) => {
 			const newTask: TTask = {
@@ -20,7 +20,7 @@ export const tasksSlice = createSlice({
 		},
 		//PayloadAction<>
 		changeTask: (state, action) => {
-			let task = state.find(todo => todo.id === action.payload.id);
+			const task = state.find(todo => todo.id === action.payload.id);
 			if (task) {
 				task.dueDate = action.payload.date;
 				task.name = action.payload.name;
@@ -31,7 +31,7 @@ export const tasksSlice = createSlice({
 			return state.filter(t => t.id !== action.payload.id);
 		},
 		toggleTask: (state, action) => {
-			let task = state.find(todo => todo.id === action.payload.id);
+			const task = state.find(todo => todo.id === action.payload.id);
 			if (task) {
 				task.completed = !task.completed;
 			}

@@ -75,7 +75,7 @@ export default function FormDialog({ open, setOpen, task }: FormDialogProps) {
           }
         }
       }}>
-      <DialogTitle align='center'>{task == undefined ? 'NEW TASK' : 'CHANGE TASK'} </DialogTitle>
+      <DialogTitle align='center'>{task === undefined ? 'NEW TASK' : 'CHANGE TASK'} </DialogTitle>
       <DialogContent sx={{ pb: '10px' }}>
         <Stack direction='column' spacing={3}>
           <FormControl>
