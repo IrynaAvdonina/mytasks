@@ -1,10 +1,12 @@
 import { Divider, Stack, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+
 import TaskItem from './../TaskItem/TaskItem';
-import { useTasks } from '../../contexts/TasksContext';
 import { useFilters } from '../../contexts/FiltersContext';
+import { RootState } from '../../store';
 
 const TaskList = ({ setOpen }: { setOpen: TSetOpen }) => {
-  const { tasks } = useTasks();
+  const tasks = useSelector((state: RootState) => state.tasks);
   const { filterPriority, searchQuery } = useFilters();
 
   const filteredTasks: TTask[] = tasks.filter(task => filterPriority !== 0 ? +task.priority === +filterPriority : true)

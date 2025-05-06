@@ -7,7 +7,7 @@ type TPriorities = {
   color: string
 };
 type TTask = {
-  id: number,
+  id: number | string,
   completed: boolean,
   name: string,
   priority: number,

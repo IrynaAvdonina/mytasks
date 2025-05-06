@@ -1,9 +1,10 @@
 import { Box, Checkbox, Chip, IconButton, Stack, SxProps, Typography } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { useDispatch } from 'react-redux';
 
 import { priorities } from './../../data/data';
-import { useTasks } from '../../contexts/TasksContext';
+import { deleteTask, toggleTask } from '../../features/tasks/tasksSlice';
 
 const FlexBox = ({ children, sx }: {
   children: React.ReactNode;
@@ -17,23 +18,17 @@ interface TTaskItem extends TTask {
 }
 
 export default function TaskItem({ id, completed, name, priority, dueDate, setOpen }: TTaskItem) {
-  const { setTasks } = useTasks();
+  const dispatch = useDispatch();
   const today = new Date().toISOString().split('T')[0];
 
   const priorityData: TPriorities | undefined = priorities.find(p => p.id === priority);
 
   const handleChange = () => {
-    setTasks(prevTasks =>
-      prevTasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+    dispatch(toggleTask({ id }));
   }
   const handleDelete = () => {
-    setTasks(prev => prev.filter(task => task.id !== id));
+    dispatch(deleteTask({ id }));
   }
-  console.log();// + пройшов
-
 
   return (
     <Stack direction="row" alignItems="center" sx={{

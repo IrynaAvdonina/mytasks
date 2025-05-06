@@ -1,7 +1,9 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, TextField, Chip, Stack, FormLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { priorities } from '../../data/data.ts'
-import { useTasks } from '../../contexts/TasksContext.tsx';
+import { useDispatch } from 'react-redux';
+
+import { priorities } from '../../data/data.ts';
+import { addTask, changeTask } from './../../features/tasks/tasksSlice';
 
 type FormDialogProps = {
   open: boolean,
@@ -18,15 +20,15 @@ export default function FormDialog({ open, setOpen, task }: FormDialogProps) {
   const [selectedPriority, setSelectedPriority] = useState(task?.priority || 1);
   const [dueDate, setDueDate] = useState<string | undefined>(task?.dueDate || '');
 
-  const { setTasks } = useTasks();
+  const dispatch = useDispatch()
 
   const minDate = new Date();
   minDate.setFullYear(minDate.getFullYear() - 1);
-  const minDateString = minDate.toISOString().slice(0, 10);;
+  const minDateString = minDate.toISOString().slice(0, 10);
 
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
-  const maxDateString = maxDate.toISOString().slice(0, 10);;
+  const maxDateString = maxDate.toISOString().slice(0, 10);
 
   useEffect(() => {
     if (!task) {
@@ -49,18 +51,12 @@ export default function FormDialog({ open, setOpen, task }: FormDialogProps) {
     const formData = new FormData(event.currentTarget);
     const { name, date }: { name?: string, date?: string } = Object.fromEntries((formData).entries());
     if (!name || !date) return;
+    if (task) {
+      dispatch(changeTask({ id: task.id, name, date, selectedPriority }));
+    } else {
+      dispatch(addTask({ name, date, selectedPriority }));
+    }
 
-    setTasks(prev => {
-      if (task) {
-        return prev.map(t => (t.id === task.id ? { ...t, name, priority: selectedPriority, dueDate: date } : t));
-
-      } else {
-        const newId = prev.length > 0 ? Math.max(...prev.map(task => task.id)) + 1 : 1;
-
-        return [{ id: newId, name: name.toString(), priority: +selectedPriority, dueDate: date.toString(), completed: false },
-        ...prev];
-      }
-    });
     handleClose();
   }
 
